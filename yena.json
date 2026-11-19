@@ -1,0 +1,14 @@
+{
+	"name": "web",
+	"version": "0.1.0",
+	"description": "One local web server for module pages, reachable only from your machine",
+	"runtime": "node",
+	"entry": "src/index.ts",
+	"export": {"deny": []},
+	"dependencies": {
+		"core": {
+			"source": "core",
+			"version": "^0.23.2"
+		}
+	}
+}

@@ -1,4 +1,5 @@
 import type {WebMethod, WebRoute, WebRouteInfo, WebStatus} from './types.js';
+import {originFor} from './config.js';
 
 export const MAX_BODY_BYTES = 1024 * 1024;
 export const DEFAULT_BODY_BYTES = 64 * 1024;
@@ -49,7 +50,7 @@ export function webStatus(): WebStatus {
 export function webBaseUrl(): string {
 	if (!config) throw new Error('The web module is not loaded');
 	if ('error' in config) throw new Error(config.error);
-	return `http://127.0.0.1:${config.port}`;
+	return originFor(config.port);
 }
 
 export function configureWeb(next: {port: number} | {error: string}): void {

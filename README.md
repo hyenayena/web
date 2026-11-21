@@ -12,7 +12,7 @@ The server starts when the yena app opens (the command runs once at UI start) an
 ## Environment
 | Variable | Meaning |
 |---|---|
-| `YENA_WEB_PORT` | Port of the server, 1024 to 65535 (default 7300). Set it before `./yena rebuild`: compose publishes the same port on the host's `127.0.0.1`. An invalid value is reported by `web status` and nothing listens. |
+| `YENA_WEB_PORT` | Port of the server, 1 to 65535 (default 80). Set it before `./yena rebuild`: compose publishes the same port on the host's `127.0.0.1`. An invalid value is reported by `web status` and nothing listens. |
 
 ## Routes API
 A module registers pages through web's public entry `src/public.ts` (through its own adapter `src/deps/web.ts`):
@@ -25,7 +25,7 @@ const off = registerRoute({module: 'demo', endpoint: 'page', methods: ['GET'], h
 - Methods are `GET` and `POST`. Everything else (`OPTIONS` included) is answered 405 with no CORS headers.
 - `maxBodyBytes` is at most 1 MiB (`MAX_BODY_BYTES`, default 64 KiB). A larger body is answered 413.
 - At most 64 routes; a duplicate module and endpoint is refused. `registerRoute` returns an idempotent unregister function.
-- `webBaseUrl()` gives `http://127.0.0.1:<port>`; `webStatus()` the server state; `webRoutes()` the registered routes.
+- `webBaseUrl()` gives `http://127.0.0.1:<port>` (without `:80`); `webStatus()` the server state; `webRoutes()` the registered routes.
 - A handler that throws is answered 500 `Internal error` (the error text is only logged). A status outside 100 to 599 is also 500.
 - Every response carries fixed security headers (`nosniff`, `no-referrer`, `no-store`, `X-Frame-Options: DENY`, `Cross-Origin-Resource-Policy: same-origin`, a strict `Content-Security-Policy` without inline scripts). They win over a handler's own headers; `Access-Control-*` headers from handlers are dropped, and so are their `Content-Length`, `Content-Type`, `Transfer-Encoding` and `Connection` (the content type goes in `type`).
 

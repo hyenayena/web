@@ -11,7 +11,7 @@ test('registers the web command and listens on nothing at load', async () => {
 	const commands = await plugin(host());
 	assert.deepEqual(commands.map(c => c.name), ['web']);
 	assert.equal(webStatus().state, 'stopped');
-	assert.match(webBaseUrl(), /^http:\/\/127\.0\.0\.1:\d+$/);
+	assert.match(webBaseUrl(), /^http:\/\/127\.0\.0\.1(:\d+)?$/);
 });
 
 test('works without a host logger', async () => {

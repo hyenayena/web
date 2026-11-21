@@ -72,13 +72,13 @@ test('status shows each state', async () => {
 		await cmd.run(['status'], c.value);
 		return c.out.join('');
 	};
-	setWebStatus({state: 'running', port: 7300, baseUrl: 'http://127.0.0.1:7300'});
-	assert.match(await show(), /running.*http:\/\/127\.0\.0\.1:7300.*7300.*No module has registered a page/s);
-	setWebStatus({state: 'starting', port: 7300});
+	setWebStatus({state: 'running', port: 8080, baseUrl: 'http://127.0.0.1:8080'});
+	assert.match(await show(), /running.*http:\/\/127\.0\.0\.1:8080.*8080.*No module has registered a page/s);
+	setWebStatus({state: 'starting', port: 8080});
 	assert.match(await show(), /starting/);
-	setWebStatus({state: 'busy', port: 7300});
-	assert.match(await show(), /port 7300 is busy.*retrying every 30 s/);
-	setWebStatus({state: 'failed', port: 7300, error: 'EACCES'});
+	setWebStatus({state: 'busy', port: 8080});
+	assert.match(await show(), /port 8080 is busy.*retrying every 30 s/);
+	setWebStatus({state: 'failed', port: 8080, error: 'EACCES'});
 	assert.match(await show(), /failed: EACCES/);
 	setWebStatus({state: 'stopped'});
 	assert.match(await show(), /not running in this process/);
@@ -100,7 +100,7 @@ test('usage errors carry the usage kind', async () => {
 });
 
 test('a busy status in headless mode still reports not running', async () => {
-	setWebStatus({state: 'busy', port: 7300});
+	setWebStatus({state: 'busy', port: 8080});
 	const c = ctx({headless: true});
 	await createWebCommand({control: fake().control, log: noopLog}).run(['status'], c.value);
 	assert.match(c.out.join(''), /not running in this process/);

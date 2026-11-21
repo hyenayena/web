@@ -1,6 +1,7 @@
 import {createServer as nodeCreateServer, type IncomingMessage, type Server, type ServerResponse} from 'node:http';
 import type {Logger} from '../../../src/api.js';
 import {encodeBody, finalHeaders, invokeRoute, resolveRequest} from './dispatch.js';
+import {originFor} from './config.js';
 import {setWebStatus, webStatus} from './registry.js';
 import type {WebResponse, WebStatus} from './types.js';
 
@@ -124,7 +125,7 @@ export function createServerControl(options: ServerOptions): ServerControl {
 		current.once('listening', () => {
 			current.unref();
 			warnedBusy = false;
-			set({state: 'running', port, baseUrl: `http://127.0.0.1:${port}`, since: Date.now()});
+			set({state: 'running', port, baseUrl: originFor(port), since: Date.now()});
 			log.info('web server listening', {port});
 		});
 		try {
